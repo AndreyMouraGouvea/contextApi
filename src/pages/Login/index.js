@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { AuthContext } from '../../contexts/auth'
 
 export default function Login() {
+ const [nome, setNome] = useState('');
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
 
+ const { signIn } = useContext(AuthContext);
+
+ const navigation = useNavigation();
+
  function handleLogin(){
-  alert("CLICOU")
+  signIn(nome, email, password)
  }
 
  return (
    <View style={styles.container}>
      <Text style={styles.title}>Seja bem vindo(a)!</Text>
 
+     <TextInput
+        style={styles.input}
+        value={nome}
+        onChangeText={(text) => setNome(text)}
+        placeholder="Digite seu nome"
+     />
      <TextInput
         style={styles.input}
         value={email}
@@ -25,6 +38,7 @@ export default function Login() {
         value={password}
         onChangeText={(text) => setPassword(text)}
         placeholder="Digite sua senha"
+        secureTextEntry
      />
 
      <TouchableOpacity style={styles.button} onPress={handleLogin}>
